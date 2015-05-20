@@ -24,8 +24,8 @@ start_init2:      Mov DPTR, #initialien
 			
 holbu: clr A
         movC A,@A+DPTR
+		JB P3.3, wuerfel_init
 		cjne A,#0FFh,start_anzeige
-		JB P3.2, wuerfel_init
 		sjmp start_init2
        
 		    
