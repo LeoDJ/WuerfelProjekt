@@ -79,7 +79,7 @@ start:
 		movC A,@A+DPTR
 		mov R0,A
 		cjne A,#255,tonhoehe
-		sjmp init
+		sjmp wuerfel_init
 tonhoehe:
 		inc dptr
 		clr A
@@ -95,7 +95,7 @@ tii:
 		djnz R0,tp
 		lcall up20us
 		inc dptr
-		ljmp init //<----------------------------------		
+		ljmp start //<----------------------------------		
 up20us:
 zeit2: mov R7,#09
 zeit1:
