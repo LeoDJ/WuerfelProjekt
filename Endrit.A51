@@ -44,8 +44,8 @@ Lauftext:
 		INC A						
 		CJNE A,#37, start	
 		;SJMP/ACALL init
-		MOV A,#0
-		SJMP startdice	
+		MOV A,#1
+		SJMP Dice	
 		
 	reruns:
 		MOV R7,#15						;Speed
@@ -75,27 +75,27 @@ Lauftext:
 	
 
 Dice:
-	 ;MOV R5,#0
+	SETB P3.7 ;workaround
+	SJMP halt1
 	init1:
-		MOV A,#1				
-	
-	startdice:
-		PUSH ACC					
-			ACALL displaydice	
-		POP ACC	
-		;CJNE R5,#1,halt
-		;LCALL TONE
-			;halt:
-				JNB P3.3, startdice
-				
-		  	;CJNE R5,#1, TONE
-			INC A	
-							
-			CJNE A,#7, continue	
-			SJMP init1
+		MOV A,#1
+		
 			
-			continue:
-				SJMP startdice
+	startdice:
+		JNB P3.3, halt0
+		ACALL displaydice
+		
+		INC A	
+							
+		CJNE A,#7, startdice	
+		SJMP init1
+		
+		halt0:
+			ACALL initTone
+		halt1:
+			JNB P3.3, halt1
+			ACALL displaydice
+			SJMP startdice
 								 			
 	displaydice:
 		PUSH ACC													
@@ -220,7 +220,8 @@ letter_table:
 	db 8Ch	; C
 	db 0ECh ; E
 	db 00h  ;
-	db 00h  ;
+	db 080h ;-
+	db 00h
 	
 	
 dice_table:
